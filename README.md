@@ -6,4 +6,3 @@ face-recognition front-end made as a final project for Udemy Web Development Cou
 
 3.Run `npm start`
 
-NOTE: You need to install all the npm dependencies for the code to run
