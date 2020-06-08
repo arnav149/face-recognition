@@ -5,32 +5,30 @@ import Logo from './Logo';
 import Rank from './Rank';
 import ImageLinkForm from './ImageLinkForm';
 import ImageDisplay from './ImageDisplay';
-import Clarifai from 'clarifai';
 import Particles from 'react-particles-js';
 import Signin from './Signin';
 import Register from './Register'
 
-const app = new Clarifai.App({apiKey: '3745d0a301034ace84c061999c668112'});
+const initialState = {
+  input:'',
+  imageUrl:'',
+  box: {},
+  route:'signin',
+  isSignedIn:false,
+  user:{
+    id:'',
+    name:'',
+    email:'',
+    entries:'0',
+    joined:''
+  }
+}
 
 class App extends Component {
   constructor()
   {
     super();
-    this.state=
-    {
-      input:'',
-      imageUrl:'',
-      box: {},
-      route:'signin',
-      isSignedIn:false,
-      user:{
-        id:'',
-        name:'',
-        email:'',
-        entries:'0',
-        joined:''
-      }
-    }
+    this.state= initialState;
   }
 
   loadUser = (data) => {
@@ -69,13 +67,17 @@ class App extends Component {
   {
     this.setState({imageUrl: this.state.input});
     console.log(this.state.imageUrl);
-    app.models
-     .predict(
-       'a403429f2ddf4b49b307e318f00e528b',
-       this.state.input)
+    fetch('http://frak-server.herokuapp.com/imageurl', {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        input: this.state.input
+      })
+    })
+     .then(response => response.json())
      .then(response => {
        if (response) {
-         fetch('http://localhost:3000/image', {
+         fetch('http://frak-server.herokuapp.com/image', {
            method: 'put',
            headers: {'Content-Type': 'application/json'},
            body: JSON.stringify({
@@ -97,7 +99,7 @@ class App extends Component {
 
   onRouteChange = (route) => {
    if (route === 'signout') {
-     this.setState({isSignedIn: false})
+     this.setState(initialState)
    } else if (route === 'home') {
      this.setState({isSignedIn: true})
    }
