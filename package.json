@@ -1,7 +1,6 @@
 {
   "name": "face-recog",
   "version": "0.1.0",
-  "homepage": "https://arnav149.github.io/face-recognition",
   "private": true,
   "dependencies": {
     "animejs": "^2.2.0",
@@ -16,9 +15,7 @@
     "tachyons": "^4.12.0"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "start": "react-scripts start",
+    "start": "serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
